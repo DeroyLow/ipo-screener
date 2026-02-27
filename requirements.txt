@@ -1,0 +1,7 @@
+streamlit
+yfinance
+plotly
+pandas
+finnhub-python
+requests
+
