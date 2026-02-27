@@ -50,7 +50,16 @@ def main() -> None:
       "to pull the live IPO calendar, or leave blank to use demo IPOs."
     )
 
-    api_key = st.text_input("Finnhub API key (optional)", type="password")
+    # If a Finnhub key is defined in Streamlit secrets (recommended for
+    # Streamlit Cloud), use it as the default so the app "just works"
+    # without typing the key every time.
+    default_api_key = st.secrets.get("FINNHUB_API_KEY", "")
+
+    api_key = st.text_input(
+      "Finnhub API key (optional)",
+      type="password",
+      value=default_api_key,
+    )
 
     lookback_days = st.slider(
       "IPO lookback window (days)",
@@ -81,7 +90,8 @@ def main() -> None:
   st.title("US IPO Screener – Technical Trader Dashboard")
 
   # --- Data loading --------------------------------------------------------
-  ipos_df = load_ipos(lookback_days, api_key if api_key.strip() else None)
+  effective_api_key = api_key.strip() or default_api_key or None
+  ipos_df = load_ipos(lookback_days, effective_api_key)
 
   # Attach manual tickers with unknown IPO date (treated as recent).
   manual_list: List[str] = []
