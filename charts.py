@@ -127,10 +127,22 @@ def create_candlestick_chart(
     spikecolor="rgba(248, 250, 252, 0.9)",
   )
 
+  # Price axis (top subplot)
   fig.update_yaxes(
     showgrid=True,
     gridcolor="rgba(148, 163, 184, 0.15)",
     zerolinecolor="rgba(148, 163, 184, 0.25)",
+    row=1,
+    col=1,
+  )
+
+  # Volume axis (bottom subplot) – hide tick labels to avoid large integer
+  # values cluttering the bottom-left of the chart while keeping the grid.
+  fig.update_yaxes(
+    showgrid=False,
+    showticklabels=False,
+    row=2,
+    col=1,
   )
 
   return fig
