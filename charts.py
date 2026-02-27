@@ -52,12 +52,27 @@ def create_candlestick_chart(
       high=df["High"],
       low=df["Low"],
       close=df["Close"],
-      name="Price",
+      name="Price (candles)",
       increasing_line_color="#22c55e",
       decreasing_line_color="#ef4444",
       increasing_fillcolor="#22c55e",
       decreasing_fillcolor="#ef4444",
-      showlegend=False,
+      opacity=0.6,
+      showlegend=True,
+    ),
+    row=1,
+    col=1,
+  )
+
+  # Overlay closing-price line so the underlying price trend is clearly visible
+  # in addition to the moving averages.
+  fig.add_trace(
+    go.Scatter(
+      x=df.index,
+      y=df["Close"],
+      mode="lines",
+      name="Close price",
+      line=dict(color="#e5e7eb", width=1.5),
     ),
     row=1,
     col=1,
