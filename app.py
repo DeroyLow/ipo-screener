@@ -252,12 +252,29 @@ def main() -> None:
     with col_left:
       st.markdown("**Key Stats**")
       info = load_stock_info(selected_ticker)
-      st.write(f"**Sector:** {info.get('sector') or info.get('industry') or 'N/A'}")
-      st.write(f"**Market Cap:** {format_market_cap(info.get('marketCap'))}")
-      st.write(
-        f"**52‑week range:** "
-        f"{info.get('fiftyTwoWeekLow', 'N/A')} – {info.get('fiftyTwoWeekHigh', 'N/A')}"
+
+      # Sector / industry
+      sector = info.get("sector") or info.get("industry") or "N/A"
+      st.write(f"**Sector:** {sector}")
+
+      # Market cap (support both .info and fast_info style keys)
+      mc_raw = info.get("marketCap") or info.get("market_cap")
+      st.write(f"**Market Cap:** {format_market_cap(mc_raw)}")
+
+      # 52‑week range – try several common key names from yfinance
+      low_52 = (
+        info.get("fiftyTwoWeekLow")
+        or info.get("fifty_two_week_low")
+        or info.get("yearLow")
       )
+      high_52 = (
+        info.get("fiftyTwoWeekHigh")
+        or info.get("fifty_two_week_high")
+        or info.get("yearHigh")
+      )
+      low_52_disp = low_52 if low_52 is not None else "N/A"
+      high_52_disp = high_52 if high_52 is not None else "N/A"
+      st.write(f"**52‑week range:** {low_52_disp} – {high_52_disp}")
 
     with col_mid:
       st.plotly_chart(fig, use_container_width=True)
