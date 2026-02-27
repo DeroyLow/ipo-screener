@@ -196,6 +196,9 @@ def main() -> None:
 
   screener_df = pd.DataFrame(rows)
 
+  # Add a simple serial-number column for easier scanning in the table.
+  screener_df.insert(0, "S/N", range(1, len(screener_df) + 1))
+
   # --- Styling helpers -----------------------------------------------------
   def ma_color(val: float | None) -> str:
     if val is None or pd.isna(val):
