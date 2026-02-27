@@ -65,7 +65,7 @@ def main() -> None:
       "IPO lookback window (days)",
       min_value=30,
       max_value=365,
-      value=90,
+      value=365,
       step=15,
     )
 
