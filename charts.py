@@ -64,8 +64,9 @@ def create_candlestick_chart(
   )
 
   # Overlay a clear close-price line so the underlying price path is easy to see
-  # alongside the moving averages and candles.
-  if "Close" in df.columns and df["Close"].notna().any():
+  # alongside the moving averages and candles. We only check that the column
+  # exists; Plotly will gracefully handle any NaNs in the data.
+  if "Close" in df.columns:
     fig.add_trace(
       go.Scatter(
         x=df.index,
